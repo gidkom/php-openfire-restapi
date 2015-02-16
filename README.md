@@ -66,7 +66,7 @@ $result = $opuservice->EnableUser($username);
 /**
  * Update a user
  *
- * The $password, $name, $email, $groups arguments are optional optional
+ * The $password, $name, $email, $groups arguments are optional
  * 
  */
 $result = $opuservice->updateUser($username, $password, $name, $email, $groups)

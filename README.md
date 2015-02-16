@@ -1,10 +1,10 @@
-openfire-userservice
+openfire-userservice-php
 =====================
 
 A simple PHP class designed to work with Openfire UserService plugin. It is used to remote manage the Openfire server.
 
 ## LICENSE
-openfire-userservice is licensed under MIT style license, see LICENCE for further information.
+openfire-userservice-php is licensed under MIT style license, see LICENCE for further information.
 
 ## REQUIREMENTS
 - PHP 5.4+
@@ -18,7 +18,7 @@ The easiest way to install is via [composer](http://getcomposer.org/). Create th
 ```json
 {
     "require": {
-        "gidkom/openfire-userservice": "dev-master"
+        "gidkom/openfire-userservice-php": "dev-master"
     }
 }
 ```

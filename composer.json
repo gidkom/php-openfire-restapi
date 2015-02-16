@@ -1,0 +1,28 @@
+{
+    "name": "gidkom/openfire-userservice",
+    "description": "",
+    "version": "1.0.0",
+    "keywords": ["openfire", "xmpp", "chat"],
+    "homepage": "https://github.com/gidkom/openfire-userservice",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gideon Kombian",
+            "email": "yoroumah@gmail.com"
+        }
+    ],
+    "support": {
+        "email": "yoroumah@gmail.com",
+        "issues": "https://github.com/gidkom/openfire-userservice/issues"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Gidkom\\UserService": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

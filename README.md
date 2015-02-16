@@ -51,6 +51,26 @@ if($result) {
 } else {
     // Something went wrong, probably connection issues
 }
+
+//Delete a user from OpenFire
+$result = $opuservice->deleteUser($username);
+
+
+//Disable a user
+$result = $opuservice->disableUser($username);
+
+
+//Enable a user
+$result = $opuservice->EnableUser($username);
+
+/**
+ * Update a user
+ *
+ * The $password, $name, $email, $groups arguments are optional optional
+ * 
+ */
+$result = $opuservice->updateUser($username, $password, $name, $email, $groups)
+
 ```
 
 ## CONTACT

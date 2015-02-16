@@ -1,6 +1,8 @@
 <?php
 
-class OpenFireUserService
+namespace Gidkom\UserService;
+
+class UserService
 {
     /**
      * Stores all the default values.

@@ -1,5 +1,5 @@
 {
-    "name": "gidkom/openfire-userservice",
+    "name": "gidkom/openfire-userservice-php",
     "description": "",
     "version": "1.0.0",
     "keywords": ["openfire", "xmpp", "chat"],

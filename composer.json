@@ -17,11 +17,12 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "rmccue/requests": ">=1.0"
     },
     "autoload": {
         "psr-0": {
-            "Gidkom\\UserService": "src/"
+            "Gidkom\\OpenFireRestApi": "src/"
         }
     },
     "minimum-stability": "dev"

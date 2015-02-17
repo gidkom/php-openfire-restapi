@@ -1,9 +1,9 @@
 {
-    "name": "gidkom/openfire-userservice-php",
-    "description": "",
+    "name": "gidkom/openfire-restapi",
+    "description": "Manage Open fire server using Rest Api",
     "version": "1.0.0",
     "keywords": ["openfire", "xmpp", "chat"],
-    "homepage": "https://github.com/gidkom/openfire-userservice",
+    "homepage": "https://github.com/gidkom/openfire-restapi",
     "license": "MIT",
     "authors": [
         {
@@ -13,7 +13,7 @@
     ],
     "support": {
         "email": "yoroumah@gmail.com",
-        "issues": "https://github.com/gidkom/openfire-userservice/issues"
+        "issues": "https://github.com/gidkom/openfire-restapi/issues"
     },
     "require": {
         "php": ">=5.4.0",

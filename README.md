@@ -1,10 +1,10 @@
-openfire-userservice-php
+php-openfire-restapi
 =====================
 
-A simple PHP class designed to work with Openfire UserService plugin. It is used to remote manage the Openfire server.
+A simple PHP class designed to work with Openfire Rest Api plugin. It is used to remote manage the Openfire server.
 
 ## LICENSE
-openfire-userservice-php is licensed under MIT style license, see LICENCE for further information.
+php-openfire-restapi is licensed under MIT style license, see LICENCE for further information.
 
 ## REQUIREMENTS
 - PHP 5.4+
@@ -18,7 +18,7 @@ The easiest way to install is via [composer](http://getcomposer.org/). Create th
 ```json
 {
     "require": {
-        "gidkom/openfire-userservice-php": "dev-master"
+        "gidkom/php-openfire-restapi": "dev-master"
     }
 }
 ```
@@ -28,40 +28,42 @@ The easiest way to install is via [composer](http://getcomposer.org/). Create th
 include "vendor/autoload.php";
 
 // Create the OpenfireUserservice object
-$opuservice = new Gidkom\UserService\UserService
+$api = new Gidkom\OpenFireRestApi\OpenFireRestApi
 
 // Set the required config parameters
-$opuservice->secret = "MySecret";
-$opuservice->host = "jabber.myserver.com";
-$opuservice->port = "9090";  // default 9090
+$api->secret = "MySecret";
+$api->host = "jabber.myserver.com";
+$api->port = "9090";  // default 9090
 
 // Optional parameters (showing default values)
-$opuservice->useCurl = true;
-$opuservice->useSSL = false;
-$opuservice->plugin = "/plugins/userService/userservice";  // plugin folder location
+
+$api->useSSL = false;
+$api->plugin = "/plugins/restapi/v1";  // plugin 
 
 // Add a new user to OpenFire and add to a group
-$result = $opuservice->addUser('Username', 'Password', 'Real Name', 'johndoe@domain.com', array('Group 1'));
+$result = $api->addUser('Username', 'Password', 'Real Name', 'johndoe@domain.com', array('Group 1'));
 
 // Check result if command is succesful
-if($result) {
+if($result['status']) {
     // Display result, and check if it's an error or correct response
-    echo ($result['result']) ? 'Success: ' : 'Error: ';
+    echo 'Success: ';
     echo $result['message'];
 } else {
     // Something went wrong, probably connection issues
+    echo 'Error: ';
+    echo $result['message'];
 }
 
 //Delete a user from OpenFire
-$result = $opuservice->deleteUser($username);
+$result = $api->deleteUser($username);
 
 
 //Disable a user
-$result = $opuservice->disableUser($username);
+$result = $api->lockoutUser($username);
 
 
 //Enable a user
-$result = $opuservice->EnableUser($username);
+$result = $api->unlockUser($username);
 
 /**
  * Update a user
@@ -69,7 +71,16 @@ $result = $opuservice->EnableUser($username);
  * The $password, $name, $email, $groups arguments are optional
  * 
  */
-$result = $opuservice->updateUser($username, $password, $name, $email, $groups)
+$result = $api->updateUser($username, $password, $name, $email, $groups)
+
+//Add to roster
+$api->addToRoster($username, $jid);
+
+//Delete from roster
+$api->addToRoster($username, $jid);
+
+//Update user roster
+$api->updateRoster($username, $jid, $nickname, $subscription]);
 
 ```
 

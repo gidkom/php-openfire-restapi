@@ -54,11 +54,12 @@ class OpenFireRestApi
         }
         
         if ($result->status_code == 200 || $result->status_code == 201) {
-            return array('result'=>true, 'message'=>$result->body);
+            return array('status'=>true, 'message'=>$result->body);
         }
-        return array('result'=>false, 'message'=>$result->body);
+        return array('status'=>false, 'message'=>$result->body);
     	
     }
+    
 
     /**
      * Get all registered users

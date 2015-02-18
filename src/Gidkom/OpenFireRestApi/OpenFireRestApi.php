@@ -1,6 +1,7 @@
 <?php
 	
 namespace Gidkom\OpenFireRestApi;
+
 use Requests;
 
 class OpenFireRestApi
@@ -49,7 +50,8 @@ class OpenFireRestApi
                 $result = Requests::put($url, $headers, $params);
                 break;
             default:
-                # code...
+                $result = null;
+                return $result;
                 break;
         }
         
@@ -96,8 +98,7 @@ class OpenFireRestApi
      * @return  json|false                 Json with data or error, or False when something went fully wrong
      */
     public function addUser($username, $password, $name=false, $email=false, $groups=false)
-    {   
-        // $params = $this->setParam(func_get_args());
+    {
         $endpoint = '/users'; 
         return $this->doRequest('post', $endpoint, compact('username', 'password','name','email', 'groups'));
     }
@@ -161,7 +162,7 @@ class OpenFireRestApi
      * Adds to this OpenFire user's roster
      *
      * @param   string          $username       Username
-     * @param   string          $itemJid        Item JID
+     * @param   string          $jid            JID
      * @param   string|false    $name           Name         (Optional)
      * @param   int|false       $subscription   Subscription (Optional)
      * @return  json|false                     Json with data or error, or False when something went fully wrong
@@ -177,7 +178,7 @@ class OpenFireRestApi
      * Removes from this OpenFire user's roster
      *
      * @param   string          $username   Username
-     * @param   string          $itemJid    Item JID
+     * @param   string          $jid        JID
      * @return  json|false                 Json with data or error, or False when something went fully wrong
      */
     public function deleteFromRoster($username, $jid)
@@ -189,16 +190,15 @@ class OpenFireRestApi
     /**
      * Updates this OpenFire user's roster
      *
-     * @param   string          $username       Username
-     * @param   string          $itemJid        Item JID
-     * @param   string|false    $name           Name         (Optional)
-     * @param   int|false       $subscription   Subscription (Optional)
-     * @return  json|false                     Json with data or error, or False when something went fully wrong
+     * @param   string          $username           Username
+     * @param   string          $jd                 JID
+     * @param   string|false    $nickname           Nick Name (Optional)
+     * @param   int|false       $subscriptionType   Subscription (Optional)
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
      */
     public function updateRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
         return $this->doRequest('put', $endpoint, $jid, compact('jid','username','subscriptionType'));     
     }
-
 }

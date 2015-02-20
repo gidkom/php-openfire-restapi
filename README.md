@@ -1,7 +1,7 @@
 php-openfire-restapi
 =====================
 
-https://scrutinizer-ci.com/g/gidkom/php-openfire-restapi/badges/build.png?b=master
+[![Build Status](https://scrutinizer-ci.com/g/gidkom/php-openfire-restapi/badges/build.png?b=master)](https://scrutinizer-ci.com/g/gidkom/php-openfire-restapi/build-status/master)
 
 
 A simple PHP class designed to work with Openfire Rest Api plugin. It is used to remote manage the Openfire server.

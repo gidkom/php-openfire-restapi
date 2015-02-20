@@ -6,7 +6,7 @@ use Requests;
 
 class OpenFireRestApi
 {
-	public $host		= 'localhost';
+    public $host		= 'localhost';
 	public $port		= '9090';
 	public $plugin		= '/plugins/restapi/v1';
 	public $secret		= 'SuperSecret';
@@ -191,7 +191,7 @@ class OpenFireRestApi
      * Updates this OpenFire user's roster
      *
      * @param   string          $username           Username
-     * @param   string          $jd                 JID
+     * @param   string          $jid                 JID
      * @param   string|false    $nickname           Nick Name (Optional)
      * @param   int|false       $subscriptionType   Subscription (Optional)
      * @return  json|false                          Json with data or error, or False when something went fully wrong

@@ -1,9 +1,0 @@
-build:
-    environment:
-        php:
-	        version: 5.4
-
-checks:
-    php:
-        code_rating: true
-            duplication: true

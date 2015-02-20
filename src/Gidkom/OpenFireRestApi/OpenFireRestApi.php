@@ -18,7 +18,7 @@ class OpenFireRestApi
      *
      * @param   string          $type           Request method
      * @param   string          $endpoint       Api request endpoint
-     * @param   string[]        $params         Parameters
+     * @param   array           $params         Parameters
      * @return  array|false                     Array with data or error, or False when something went fully wrong
      */
     private function doRequest($type, $endpoint, $params=array())

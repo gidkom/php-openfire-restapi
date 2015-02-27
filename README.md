@@ -1,6 +1,8 @@
 php-openfire-restapi
 =====================
 
+[![Join the chat at https://gitter.im/gidkom/php-openfire-restapi](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gidkom/php-openfire-restapi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://scrutinizer-ci.com/g/gidkom/php-openfire-restapi/badges/build.png?b=master)](https://scrutinizer-ci.com/g/gidkom/php-openfire-restapi/build-status/master)
 
 

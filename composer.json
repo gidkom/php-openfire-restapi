@@ -18,7 +18,6 @@
     "require": {
         "php": ">=5.4.0",
         "ext-curl": "*",
-        "rmccue/requests": ">=1.0",
         "guzzlehttp/guzzle": "~5.0"
     },
     "autoload": {

@@ -15,6 +15,17 @@ class OpenFireRestApi
     protected $params   = array();
 
     /**
+     * Class Contructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->client = new Client();
+       
+    }
+
+    /**
      * Make the request and analyze the result
      *
      * @param   string          $type           Request method
@@ -22,11 +33,7 @@ class OpenFireRestApi
      * @param   array           $params         Parameters
      * @return  array|false                     Array with data or error, or False when something went fully wrong
      */
-    public function __construct()
-    {
-        $this->client = new Client();
-       
-    }
+    
     private function doRequest($type, $endpoint, $params=array())
     {
     	$base = ($this->useSSL) ? "https" : "http";
@@ -35,30 +42,24 @@ class OpenFireRestApi
   			'Accept' => 'application/json',
   			'Authorization' => $this->secret
   		);
-       // $response = $client->get('http://httpbin.org/get', [
-       //      'headers' => ['X-Foo-Header' => 'value']
-       //  ]);
+       ;
         switch ($type) {
             case 'get':
-                // $result = Requests::get($url, $headers);
                 $result = $this->client->get($url, compact('headers'));
                 break;
             case 'post':
                 $headers += ['Content-Type'=>'application/json'];                
                 $body = json_encode($params);
-                // $result = Requests::post($url, $headers, $params);
                 $result = $this->client->post($url, compact('headers','body'));
                 break;
             case 'delete':
                 $headers += ['Content-Type'=>'application/json'];                
                 $body = json_encode($params);
-                // $result = Requests::delete($url, $headers);
                 $result = $this->client->delete($url, compact('headers','body'));
                 break;
             case 'put':
                 $headers += ['Content-Type'=>'application/json'];                
                 $body = json_encode($params);
-                // $result = Requests::put($url, $headers, $params);
                 $result = $this->client->put($url, compact('headers','body'));
                 break;
             default:

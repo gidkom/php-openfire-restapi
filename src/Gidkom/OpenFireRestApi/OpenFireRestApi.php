@@ -42,29 +42,27 @@ class OpenFireRestApi
   			'Accept' => 'application/json',
   			'Authorization' => $this->secret
   		);
-       ;
+
+        $body = json_encode($params);
+
         switch ($type) {
             case 'get':
                 $result = $this->client->get($url, compact('headers'));
                 break;
             case 'post':
-                $headers += ['Content-Type'=>'application/json'];                
-                $body = json_encode($params);
+                $headers += ['Content-Type'=>'application/json'];
                 $result = $this->client->post($url, compact('headers','body'));
                 break;
             case 'delete':
-                $headers += ['Content-Type'=>'application/json'];                
-                $body = json_encode($params);
+                $headers += ['Content-Type'=>'application/json'];
                 $result = $this->client->delete($url, compact('headers','body'));
                 break;
             case 'put':
-                $headers += ['Content-Type'=>'application/json'];                
-                $body = json_encode($params);
+                $headers += ['Content-Type'=>'application/json'];
                 $result = $this->client->put($url, compact('headers','body'));
                 break;
             default:
                 $result = null;
-                return $result;
                 break;
         }
         

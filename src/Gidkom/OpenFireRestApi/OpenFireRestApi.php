@@ -212,4 +212,67 @@ class OpenFireRestApi
         $endpoint = '/users/'.$username.'/roster/'.$jid;
         return $this->doRequest('put', $endpoint, $jid, compact('jid','username','subscriptionType'));     
     }
+
+    /**
+     * Get all groups
+     *
+     * @return  json|false      Json with data or error, or False when something went fully wrong
+     */
+    public function getGroups()
+    {
+        $endpoint = '/groups';
+        return $this->doRequest('get', $endpoint);
+    }
+
+    /**
+     *  Retrieve a group
+     *
+     * @param  string   $name                       Name of group
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function getGroup($name)
+    {
+        $endpoint = '/groups/'.$name;
+        return $this->doRequest('get', $endpoint);
+    }
+
+    /**
+     * Create a group 
+     *
+     * @param   string   $name                      Name of the group
+     * @param   string   $description               Some description of the group
+     *
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function createGroup($name, $description = false)
+    {
+        $endpoint = '/groups/';
+        return $this->doRequest('post', $endpoint, compact('name','description'));
+    }
+
+    /**
+     * Delete a group
+     *
+     * @param   string      $Name               Name of the Group to delete
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function deleteGroup($name)
+    {
+        $endpoint = '/groups/'.$name;
+        return $this->doRequest('delete', $endpoint);
+    }
+
+    /**
+     * Update a group (description)
+     *
+     * @param   string      $name               Name of group
+     * @param   string      $new_name           New name of group
+     * @param   string      $description        Some description of the group
+     *
+     */
+    public function updateGroup($name,  $description)
+    {
+        $endpoint = '/groups/'.$name;
+        return $this->doRequest('put', $endpoint, compact('name','description'));
+    }
 }

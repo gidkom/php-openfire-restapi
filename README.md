@@ -87,6 +87,21 @@ $api->addToRoster($username, $jid);
 //Update user roster
 $api->updateRoster($username, $jid, $nickname, $subscription]);
 
+// Get all groups
+$api->getGroup();
+
+// Retrieve group 
+$api->getGroup($name);
+
+// Create a group
+$api->createGroup($group_name, $description);
+
+// Update a group description
+$api->updateGroup($group_name, $description);
+
+// Delete a group
+$api->deleteGroup($group_name);
+
 ```
 
 ## CONTACT

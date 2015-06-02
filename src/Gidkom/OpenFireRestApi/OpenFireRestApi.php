@@ -12,11 +12,11 @@ class OpenFireRestApi
 	public $secret		= 'SuperSecret';
 	public $useSSL		= false;
     protected $params   = array();
+    public $client;
 
     /**
      * Class Contructor
      *
-     * @return void
      */
     public function __construct()
     {
@@ -252,7 +252,7 @@ class OpenFireRestApi
     /**
      * Delete a group
      *
-     * @param   string      $Name               Name of the Group to delete
+     * @param   string      $name               Name of the Group to delete
      * @return  json|false                          Json with data or error, or False when something went fully wrong
      */
     public function deleteGroup($name)
@@ -265,7 +265,6 @@ class OpenFireRestApi
      * Update a group (description)
      *
      * @param   string      $name               Name of group
-     * @param   string      $new_name           New name of group
      * @param   string      $description        Some description of the group
      *
      */

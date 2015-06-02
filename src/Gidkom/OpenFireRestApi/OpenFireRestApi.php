@@ -2,7 +2,6 @@
 	
 namespace Gidkom\OpenFireRestApi;
 
-use Requests;
 use GuzzleHttp\Client;
 
 class OpenFireRestApi

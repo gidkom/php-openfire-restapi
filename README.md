@@ -33,7 +33,7 @@ The easiest way to install is via [composer](http://getcomposer.org/). Create th
 include "vendor/autoload.php";
 
 // Create the Openfire Rest api object
-$api = new Gidkom\OpenFireRestApi\OpenFireRestApi
+$api = new Gidkom\OpenFireRestApi\OpenFireRestApi;
 
 // Set the required config parameters
 $api->secret = "MySecret";

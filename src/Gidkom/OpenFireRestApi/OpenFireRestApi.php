@@ -66,9 +66,9 @@ class OpenFireRestApi
         }
         
         if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
-            return array('status'=>true, 'message'=>$result->getBody());
+            return array('status'=>true, 'message'=>json_decode($result->getBody()));
         }
-        return array('status'=>false, 'message'=>$result->getBody());
+        return array('status'=>false, 'message'=>json_decode($result->getBody()));
     	
     }
     
@@ -272,5 +272,16 @@ class OpenFireRestApi
     {
         $endpoint = '/groups/'.$name;
         return $this->doRequest('put', $endpoint, compact('name','description'));
+    }
+
+    /**
+     * Gell all active sessions
+     *
+     * @return json|false       Json with data or error, or False when something went fully wrong
+     */
+    public function getSessions()
+    {
+        $endpoint = '/sessions';
+        return $this->doRequest('get', $endpoint);
     }
 }

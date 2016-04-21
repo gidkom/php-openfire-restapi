@@ -177,10 +177,10 @@ class OpenFireRestApi
      * @param   int|false       $subscription   Subscription (Optional)
      * @return  json|false                     Json with data or error, or False when something went fully wrong
      */
-    public function addToRoster($username, $jid, $name=false, $subscription=false)
+    public function addToRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster';
-        return $this->doRequest('post', $endpoint, compact('jid','name','subscription'));
+        return $this->doRequest('post', $endpoint, compact('jid','nickname','subscriptionType'));
     }
 
 

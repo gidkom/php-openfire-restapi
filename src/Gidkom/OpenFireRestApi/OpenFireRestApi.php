@@ -171,16 +171,16 @@ class OpenFireRestApi
     /**
      * Adds to this OpenFire user's roster
      *
-     * @param   string          $username       Username
-     * @param   string          $jid            JID
-     * @param   string|false    $name           Name         (Optional)
-     * @param   int|false       $subscription   Subscription (Optional)
-     * @return  json|false                     Json with data or error, or False when something went fully wrong
+     * @param   string          $username       	Username
+     * @param   string          $jid            	JID
+     * @param   string|false    $name           	Name         (Optional)
+     * @param   int|false       $subscriptionType   	Subscription (Optional)
+     * @return  json|false                     		Json with data or error, or False when something went fully wrong
      */
-    public function addToRoster($username, $jid, $name=false, $subscription=false)
+    public function addToRoster($username, $jid, $name=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster';
-        return $this->doRequest('post', $endpoint, compact('jid','name','subscription'));
+        return $this->doRequest('post', $endpoint, compact('jid','name','subscriptionType'));
     }
 
 

@@ -6,22 +6,17 @@ use GuzzleHttp\Client;
 
 class OpenFireRestApi
 {
-    public $host		= 'localhost';
-	public $port		= '9090';
-	public $plugin		= '/plugins/restapi/v1';
-	public $secret		= 'SuperSecret';
-	public $useSSL		= false;
-    protected $params   = array();
+    public $host = 'localhost';
+    public $port = '9090';
+    public $plugin = '/plugins/restapi/v1';
+    public $secret = 'SuperSecret';
+    public $useSSL = false;
+    protected $params  = array();
     public $client;
 
-    /**
-     * Class Contructor
-     *
-     */
     public function __construct()
     {
         $this->client = new Client();
-       
     }
 
     /**
@@ -33,7 +28,7 @@ class OpenFireRestApi
      * @return  array|false                     Array with data or error, or False when something went fully wrong
      */
     
-    private function doRequest($type, $endpoint, $params=array())
+    protected function doRequest($type, $endpoint, $params=array())
     {
     	$base = ($this->useSSL) ? "https" : "http";
     	$url = $base . "://" . $this->host . ":" .$this->port.$this->plugin.$endpoint;
@@ -283,5 +278,20 @@ class OpenFireRestApi
     {
         $endpoint = '/sessions';
         return $this->doRequest('get', $endpoint);
+    }
+
+    public function getChatRoom($name)
+    {
+        return $this->doRequest('get', '/chatrooms/'.$name);
+    }
+
+    public function createChatRoom($naturalName, $roomName, $description)
+    {
+        return $this->doRequest('post', '/chatrooms', compact('naturalName', 'roomName', 'description'));
+    }
+
+    public function deleteChatRoom($name)
+    {
+        return $this->doRequest('delete', '/chatrooms/'.$name);
     }
 }

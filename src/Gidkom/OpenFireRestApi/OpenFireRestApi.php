@@ -13,6 +13,10 @@ class OpenFireRestApi
     public $useSSL = false;
     protected $params  = array();
     public $client;
+    public $bcastRoles = array();
+    public $useBasicAuth = false;
+    public $basicUser = 'admin';
+    public $basicPwd = '1234';
 
     public function __construct()
     {
@@ -32,9 +36,15 @@ class OpenFireRestApi
     {
     	$base = ($this->useSSL) ? "https" : "http";
     	$url = $base . "://" . $this->host . ":" .$this->port.$this->plugin.$endpoint;
+	    
+	if ($this->useBasicAuth)
+            $auth = 'Basic ' . base64_encode($this->basicUser . ':' . $this->basicPwd);
+        else
+            $auth = $this->secret;
+	    
     	$headers = array(
   			'Accept' => 'application/json',
-  			'Authorization' => $this->secret
+  			'Authorization' => $auth
   		);
 
         $body = json_encode($params);
@@ -284,10 +294,16 @@ class OpenFireRestApi
     {
         return $this->doRequest('get', '/chatrooms/'.$name);
     }
-
-    public function createChatRoom($naturalName, $roomName, $description)
+	
+    public function getAllChatRooms()
     {
-        return $this->doRequest('post', '/chatrooms', compact('naturalName', 'roomName', 'description'));
+        return $this->doRequest('get', '/chatrooms?type=all');
+    }
+
+    public function createChatRoom($naturalName, $roomName, $description, $maxUsers = '30', $persistent = 'false', $publicRoom = 'false')
+    {
+        $broadcastPresenceRoles = $this->bcastRoles;
+        return $this->doRequest('post', '/chatrooms', compact('naturalName', 'roomName', 'description', 'maxUsers', 'persistent', 'publicRoom', 'broadcastPresenceRoles'));
     }
 
     public function deleteChatRoom($name)

@@ -11,6 +11,11 @@ A simple PHP class designed to work with Openfire Rest Api plugin. It is used to
 ## LICENSE
 php-openfire-restapi is licensed under MIT style license, see LICENCE for further information.
 
+## DEPENDENCIES
+The REST API plugin need to be installed and configured on the Openfire server.
+[how to install REST API](https://www.igniterealtime.org/projects/openfire/plugins/restapi/readme.html#installation)
+[How to configure REST API](https://www.igniterealtime.org/projects/openfire/plugins/restapi/readme.html#authentication)
+
 ## REQUIREMENTS
 - PHP 5.4+
 
@@ -28,10 +33,18 @@ The easiest way to install is via [composer](http://getcomposer.org/). Create th
 }
 ```
 
-## USAGE
+
+# EXAMPLE
+
+
+## SETUP
 ```php
 include "vendor/autoload.php";
 
+```
+
+## SET PARAMETERS
+```
 // Create the Openfire Rest api object
 $api = new Gidkom\OpenFireRestApi\OpenFireRestApi;
 
@@ -44,7 +57,11 @@ $api->port = "9090";  // default 9090
 
 $api->useSSL = false;
 $api->plugin = "/plugins/restapi/v1";  // plugin 
+```
 
+### User related examples
+
+```
 // Add a new user to OpenFire and add to a group
 $result = $api->addUser('Username', 'Password', 'Real Name', 'johndoe@domain.com', array('Group 1'));
 
@@ -86,7 +103,11 @@ $api->addToRoster($username, $jid);
 
 //Update user roster
 $api->updateRoster($username, $jid, $nickname, $subscription]);
+```
 
+### Group related examples
+
+```
 // Get all groups
 $api->getGroup();
 

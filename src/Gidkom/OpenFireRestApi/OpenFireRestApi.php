@@ -2,26 +2,17 @@
 	
 namespace Gidkom\OpenFireRestApi;
 
-use GuzzleHttp\Client;
+use \Gidkom\OpenFireRestApi\RestClient;
 
-class OpenFireRestApi
+class OpenFireRestApi extends RestClient
 {
-    public $host = 'localhost';
-    public $port = '9090';
-    public $plugin = '/plugins/restapi/v1';
-    public $secret = 'SuperSecret';
-    public $useSSL = false;
-    protected $params  = array();
-    public $client;
-    public $bcastRoles = array();
-    public $useBasicAuth = false;
-    public $basicUser = 'admin';
-    public $basicPwd = '1234';
+
 
     public function __construct()
     {
-        $this->client = new Client();
-    }
+        parent::__construct();
+
+    }   
 
     /**
      * Make the request and analyze the result
@@ -32,51 +23,6 @@ class OpenFireRestApi
      * @return  array|false                     Array with data or error, or False when something went fully wrong
      */
     
-    protected function doRequest($type, $endpoint, $params=array())
-    {
-    	$base = ($this->useSSL) ? "https" : "http";
-    	$url = $base . "://" . $this->host . ":" .$this->port.$this->plugin.$endpoint;
-	    
-	if ($this->useBasicAuth)
-            $auth = 'Basic ' . base64_encode($this->basicUser . ':' . $this->basicPwd);
-        else
-            $auth = $this->secret;
-	    
-    	$headers = array(
-  			'Accept' => 'application/json',
-  			'Authorization' => $auth
-  		);
-
-        $body = json_encode($params);
-
-        switch ($type) {
-            case 'get':
-                $result = $this->client->get($url, compact('headers'));
-                break;
-            case 'post':
-                $headers += ['Content-Type'=>'application/json'];
-                $result = $this->client->post($url, compact('headers','body'));
-                break;
-            case 'delete':
-                $headers += ['Content-Type'=>'application/json'];
-                $result = $this->client->delete($url, compact('headers','body'));
-                break;
-            case 'put':
-                $headers += ['Content-Type'=>'application/json'];
-                $result = $this->client->put($url, compact('headers','body'));
-                break;
-            default:
-                $result = null;
-                break;
-        }
-        
-        if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
-            return array('status'=>true, 'message'=>json_decode($result->getBody()));
-        }
-        return array('status'=>false, 'message'=>json_decode($result->getBody()));
-    	
-    }
-    
 
     /**
      * Get all registered users
@@ -86,7 +32,7 @@ class OpenFireRestApi
     public function getUsers()
     {
     	$endpoint = '/users';        
-    	return $this->doRequest('get',$endpoint);
+    	return $this->doRequest('GET', $endpoint);
     }
 
 
@@ -98,7 +44,7 @@ class OpenFireRestApi
     public function getUser($username)
     {
         $endpoint = '/users/'.$username; 
-        return $this->doRequest('get', $endpoint);
+        return $this->doRequest('GET', $endpoint);
     }
 
 
@@ -115,7 +61,7 @@ class OpenFireRestApi
     public function addUser($username, $password, $name=false, $email=false, $groups=false)
     {
         $endpoint = '/users'; 
-        return $this->doRequest('post', $endpoint, compact('username', 'password','name','email', 'groups'));
+        return $this->doRequest('POST', $endpoint, compact('username', 'password','name','email', 'groups'));
     }
 
 
@@ -128,7 +74,7 @@ class OpenFireRestApi
     public function deleteUser($username)
     {
         $endpoint = '/users/'.$username; 
-        return $this->doRequest('delete', $endpoint);
+        return $this->doRequest('DELETE', $endpoint);
     }
 
     /**
@@ -144,7 +90,7 @@ class OpenFireRestApi
     public function updateUser($username, $password, $name=false, $email=false, $groups=false)
     {
         $endpoint = '/users/'.$username; 
-        return $this->doRequest('put', $endpoint, compact('username', 'password','name','email', 'groups'));
+        return $this->doRequest('PUT', $endpoint, compact('username', 'password','name','email', 'groups'));
     }
 
      /**
@@ -156,7 +102,7 @@ class OpenFireRestApi
     public function lockoutUser($username)
     {
         $endpoint = '/lockouts/'.$username; 
-        return $this->doRequest('post', $endpoint);
+        return $this->doRequest('POST', $endpoint);
     }
 
 
@@ -169,7 +115,7 @@ class OpenFireRestApi
     public function unlockUser($username)
     {
         $endpoint = '/lockouts/'.$username; 
-        return $this->doRequest('delete', $endpoint);
+        return $this->doRequest('DELETE', $endpoint);
     }
 
 
@@ -185,7 +131,7 @@ class OpenFireRestApi
     public function addToRoster($username, $jid, $name=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster';
-        return $this->doRequest('post', $endpoint, compact('jid','name','subscriptionType'));
+        return $this->doRequest('POST', $endpoint, compact('jid','name','subscriptionType'));
     }
 
 
@@ -199,7 +145,7 @@ class OpenFireRestApi
     public function deleteFromRoster($username, $jid)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
-        return $this->doRequest('delete', $endpoint, $jid);
+        return $this->doRequest('DELETE', $endpoint, $jid);
     }
 
     /**
@@ -214,7 +160,7 @@ class OpenFireRestApi
     public function updateRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
-        return $this->doRequest('put', $endpoint, $jid, compact('jid','username','subscriptionType'));     
+        return $this->doRequest('PUT', $endpoint, $jid, compact('jid','username','subscriptionType'));     
     }
 
     /**
@@ -225,7 +171,7 @@ class OpenFireRestApi
     public function getGroups()
     {
         $endpoint = '/groups';
-        return $this->doRequest('get', $endpoint);
+        return $this->doRequest('GET', $endpoint);
     }
 
     /**
@@ -237,7 +183,7 @@ class OpenFireRestApi
     public function getGroup($name)
     {
         $endpoint = '/groups/'.$name;
-        return $this->doRequest('get', $endpoint);
+        return $this->doRequest('GET', $endpoint);
     }
 
     /**
@@ -251,7 +197,7 @@ class OpenFireRestApi
     public function createGroup($name, $description = false)
     {
         $endpoint = '/groups/';
-        return $this->doRequest('post', $endpoint, compact('name','description'));
+        return $this->doRequest('POST', $endpoint, compact('name','description'));
     }
 
     /**
@@ -263,7 +209,7 @@ class OpenFireRestApi
     public function deleteGroup($name)
     {
         $endpoint = '/groups/'.$name;
-        return $this->doRequest('delete', $endpoint);
+        return $this->doRequest('DELETE', $endpoint);
     }
 
     /**
@@ -276,7 +222,7 @@ class OpenFireRestApi
     public function updateGroup($name,  $description)
     {
         $endpoint = '/groups/'.$name;
-        return $this->doRequest('put', $endpoint, compact('name','description'));
+        return $this->doRequest('PUT', $endpoint, compact('name','description'));
     }
 
     /**
@@ -287,27 +233,27 @@ class OpenFireRestApi
     public function getSessions()
     {
         $endpoint = '/sessions';
-        return $this->doRequest('get', $endpoint);
+        return $this->doRequest('GET', $endpoint);
     }
 
     public function getChatRoom($name)
     {
-        return $this->doRequest('get', '/chatrooms/'.$name);
+        return $this->doRequest('GET', '/chatrooms/'.$name);
     }
 	
     public function getAllChatRooms()
     {
-        return $this->doRequest('get', '/chatrooms?type=all');
+        return $this->doRequest('GET', '/chatrooms?type=all');
     }
 
     public function createChatRoom($naturalName, $roomName, $description, $maxUsers = '30', $persistent = 'false', $publicRoom = 'false')
     {
         $broadcastPresenceRoles = $this->bcastRoles;
-        return $this->doRequest('post', '/chatrooms', compact('naturalName', 'roomName', 'description', 'maxUsers', 'persistent', 'publicRoom', 'broadcastPresenceRoles'));
+        return $this->doRequest('POST', '/chatrooms', compact('naturalName', 'roomName', 'description', 'maxUsers', 'persistent', 'publicRoom', 'broadcastPresenceRoles'));
     }
 
     public function deleteChatRoom($name)
     {
-        return $this->doRequest('delete', '/chatrooms/'.$name);
+        return $this->doRequest('DELETE', '/chatrooms/'.$name);
     }
 }

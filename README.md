@@ -13,8 +13,8 @@ php-openfire-restapi is licensed under MIT style license, see LICENCE for furthe
 
 ## DEPENDENCIES
 The REST API plugin need to be installed and configured on the Openfire server.  
-[how to install REST API](https://www.igniterealtime.org/projects/openfire/plugins/restapi/readme.html#installation)  
-[How to configure REST API](https://www.igniterealtime.org/projects/openfire/plugins/restapi/readme.html#authentication)  
+- [how to install REST API](https://www.igniterealtime.org/projects/openfire/plugins/restapi/readme.html#installation)  
+- [How to configure REST API](https://www.igniterealtime.org/projects/openfire/plugins/restapi/readme.html#authentication)  
 
 ## REQUIREMENTS
 - PHP 5.4+

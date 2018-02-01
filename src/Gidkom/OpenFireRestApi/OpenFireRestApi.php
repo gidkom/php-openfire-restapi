@@ -14,14 +14,6 @@ class OpenFireRestApi extends RestClient
 
     }   
 
-    /**
-     * Make the request and analyze the result
-     *
-     * @param   string          $type           Request method
-     * @param   string          $endpoint       Api request endpoint
-     * @param   array           $params         Parameters
-     * @return  array|false                     Array with data or error, or False when something went fully wrong
-     */
     
 
     /**
@@ -29,9 +21,13 @@ class OpenFireRestApi extends RestClient
      *
      * @return json|false       Json with data or error, or False when something went fully wrong
      */
-    public function getUsers()
+    public function getUsers($opts = [])
     {
-    	$endpoint = '/users';        
+        $query = '';
+        
+        if(isset($opts['search'])) $query .= '?search='.$opts['search'];
+        
+    	$endpoint = '/users'.$query;        
     	return $this->doRequest('GET', $endpoint);
     }
 
@@ -93,8 +89,62 @@ class OpenFireRestApi extends RestClient
         return $this->doRequest('PUT', $endpoint, compact('username', 'password','name','email', 'groups'));
     }
 
-     /**
-     * locks/Disables an OpenFire user
+
+    /**
+     * Retrieve all user groups
+     *
+     * @param   string          $username   Username
+     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     */
+    public function userGroups($username)
+    {
+        $endpoint = '/users/'.$username.'/groups'; 
+        return $this->doRequest('GET', $endpoint);
+    }
+
+    /**
+     * Add user to groups
+     *
+     * @param   string          $username   Username
+     * @param   Array           $groups   Groups to add user
+     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     */
+    public function addToGroups($username, $groups)
+    {
+        $endpoint = '/users/'.$username.'/groups'; 
+        return $this->doRequest('POST', $endpoint, $groups);
+    }
+
+    /**
+     * Add user to a group
+     *
+     * @param   string          $username   Username
+     * @param   string           $groups   Groups to add user
+     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     */
+    public function addToGroup($username, $groupName)
+    {
+        $endpoint = '/users/'.$username.'/groups/'.$groupName; 
+        return $this->doRequest('POST', $endpoint );
+    }
+
+
+    /**
+     * Delete user from a group
+     *
+     * @param   string          $username   Username
+     * @param   string           $groups   Groups to add user
+     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     */
+    public function deleteFromGroup($username, $groupName)
+    {
+        $endpoint = '/users/'.$username.'/groups/'.$groupName; 
+        return $this->doRequest('DELETE', $endpoint );
+    }
+
+
+    /**
+     * lockout/Disable an OpenFire user
      *
      * @param   string          $username   Username
      * @return  json|false                 Json with data or error, or False when something went fully wrong
@@ -116,6 +166,19 @@ class OpenFireRestApi extends RestClient
     {
         $endpoint = '/lockouts/'.$username; 
         return $this->doRequest('DELETE', $endpoint);
+    }
+
+
+    /**
+     * List user rosters
+     *
+     * @param   string          $username           Username
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function userRosters($username)
+    {
+        $endpoint = '/users/'.$username.'/roster';
+        return $this->doRequest('GET', $endpoint, compact('jid','name','subscriptionType'));
     }
 
 

@@ -32,6 +32,14 @@ class RestClient
 
 
 
+    /**
+     * Make the request and analyze the result
+     *
+     * @param   string          $type           Request method
+     * @param   string          $endpoint       Api request endpoint
+     * @param   array           $params         Parameters
+     * @return  array|false                     Array with data or error, or False when something went fully wrong
+     */
 	protected function doRequest($type, $endpoint, $params=[])
     {
     	$base = ($this->useSSL) ? "https" : "http";
@@ -44,7 +52,6 @@ class RestClient
 	    
     	$headers = array(
   			'Accept' => 'application/json',
-  			// 'Content-Type'=>'application/json',
   			'Authorization' => $auth
   		);
 
@@ -52,29 +59,8 @@ class RestClient
         // $headers += ['Content-Type'=>'application/json'];
         
 
-
         try {
-        	// $result = $this->client->request($type, $url, compact('headers'));
-        	switch ($type) {
-        		case 'GET':
-        			$result = $this->client->get($url, compact('headers'));
-        			break;
-	            case 'POST':
-	                $headers += ['Content-Type'=>'application/json'];
-	                $result = $this->client->post($url, compact('headers','body'));
-	                break;
-	            case 'DELETE':
-	                $headers += ['Content-Type'=>'application/json'];
-	                $result = $this->client->delete($url, compact('headers','body'));
-	                break;
-	            case 'PUT':
-	                $headers += ['Content-Type'=>'application/json'];
-	                $result = $this->client->put($url, compact('headers','body'));
-	                break;
-	            default:
-	                $result = null;
-	                break;
-	        }
+        	$result = $this->client->request($type, $url, compact('headers','body'));
         } catch (Exception $e) {
         	$result = $e->message;
         }
@@ -82,10 +68,10 @@ class RestClient
 
 
         
-        // if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
-        //     return array('status'=>true, 'message'=>json_decode($result->getBody()));
-        // }
-        // return array('status'=>false, 'message'=>json_decode($result->getBody()));
+        if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
+            return array('status'=>true, 'message'=>json_decode($result->getBody()));
+        }
+        return array('status'=>false, 'message'=>json_decode($result->getBody()));
     	
     }
     

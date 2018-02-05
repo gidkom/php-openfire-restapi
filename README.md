@@ -106,23 +106,37 @@ $result = $api->lockoutUser($username);
 # Enable a user
 $result = $api->unlockUser($username);
 
+# Retrieve a user roster
+$api->userRosters($username);
 
-# Add to roster
+# Create a user roster entry
 $api->addToRoster($username, $jid);
 
 # Delete from roster
-$api->addToRoster($username, $jid);
+$api->deleteFromRoster($username, $jid);
 
 # Update user roster
 $api->updateRoster($username, $jid, $nickname, $subscription]);
 
-# Retrieve a user roster
-$api->userRosters($username);
-
 
 ```
 
+### Chat room related REST Endpoints
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
 # Get all groups
 $api->getGroups();
 

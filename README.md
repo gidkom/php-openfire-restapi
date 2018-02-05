@@ -123,7 +123,28 @@ $api->updateRoster($username, $jid, $nickname, $subscription]);
 
 ### Chat room related REST Endpoints
 ```
+# Get all chat rooms
 $api->getAllChatRooms();
+
+# Retrieve a chat room
+$api->getChatRoom($name);
+
+# Create a chat room
+# $params  = ['naturalName'=>'myroom', 'roomName'=>'myroom', 'description'=>'my chat room']; 
+$api->createChatRoom($params);
+
+# Delete a chat room
+$api->deleteChatRoom($roomName);
+
+# Update a chat room
+# $params  = ['naturalName'=>'myroom', 'roomName'=>'myroom', 'description'=>'my fav chat room'];  
+$api->createChatRoom($roomName =>$params);
+
+# Add user with role to chat room
+$api->addUserRoleToChatRoom($roomName, $name, $role);
+
+
+
 
 ```
 

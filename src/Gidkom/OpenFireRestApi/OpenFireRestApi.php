@@ -299,24 +299,117 @@ class OpenFireRestApi extends RestClient
         return $this->doRequest('GET', $endpoint);
     }
 
+
+    /**
+     * Gell all active sessions
+     *
+     * @return json|false       Json with data or error, or False when something went fully wrong
+     */
     public function getChatRoom($name)
     {
         return $this->doRequest('GET', '/chatrooms/'.$name);
     }
 	
+    /**
+     * Gell all chat rooms
+     *
+     * @return json|false       Json with data or error, or False when something went fully wrong
+     */
     public function getAllChatRooms()
     {
         return $this->doRequest('GET', '/chatrooms?type=all');
     }
 
-    public function createChatRoom($naturalName, $roomName, $description, $maxUsers = '30', $persistent = 'false', $publicRoom = 'false')
+
+    /**
+     * Create a chat room
+     *
+     * @param   string          $params        Params
+     * @return  json|false                     Json with data or error, or False when something went fully wrong
+     */
+    public function createChatRoom($params = [])
     {
-        $broadcastPresenceRoles = $this->bcastRoles;
-        return $this->doRequest('POST', '/chatrooms', compact('naturalName', 'roomName', 'description', 'maxUsers', 'persistent', 'publicRoom', 'broadcastPresenceRoles'));
+        return $this->doRequest('POST', '/chatrooms', $params);
     }
 
-    public function deleteChatRoom($name)
+
+    /**
+     * Update a chat room
+     *
+     * @param   string          $params        Params
+     * @return  json|false                     Json with data or error, or False when something went fully wrong
+     */
+    public function updateChatRoom($roomName, $params = [])
     {
-        return $this->doRequest('DELETE', '/chatrooms/'.$name);
+        return $this->doRequest('PUT', '/chatrooms/'.$roomName, $params);
+    }
+
+
+    /**
+     * Delete a chat room
+     *
+     * @param   string      $name               Name of the Group to delete
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function deleteChatRoom($roomName)
+    {
+        return $this->doRequest('DELETE', '/chatrooms/'.$roomName);
+    }
+
+    /**
+     * Get chat room participants
+     *
+     * @param   string      $name               Name of the chatroom
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function getChatRoomParticipants($roomName)      
+    {
+        return $this->doRequest('GET', '/chatrooms/'.$roomName.'/participants');
+    }
+
+    /**
+     * Get chat room occupants
+     *
+     * @param   string      $name               Name of the chatroom
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function getChatRoomOccupants($roomName)      
+    {
+        return $this->doRequest('GET', '/chatrooms/'.$roomName.'/occupants');
+    }
+
+    /**
+     * Add user with role to chatroom
+     *
+     * @param   string      $name               Name of the user or jid
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function addUserRoleToChatRoom($roomName, $name, $roles)
+    {
+        return $this->doRequest('POST', '/chatrooms/'.$roomName.'/'.$roles.'/'.$name);
+    }
+
+
+    /**
+     * Add group with role to chatroom
+     *
+     * @param   string      $name               Name of the group
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function addGroupRoleToChatRoom($roomName, $name, $roles)
+    {
+        return $this->doRequest('POST', '/chatrooms/'.$roomName.'/'.$roles.'/group/'.$name);
+    }
+
+
+    /**
+     * Delete a user from a chat room
+     *
+     * @param   string      $name               Name of the group
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function deleteChatRoomUser($roomName, $name, $roles)
+    {
+        return $this->doRequest('DELETE', '/chatrooms/'.$roomName.'/'.$roles.'/'.$name);
     }
 }

@@ -122,7 +122,10 @@ $api->updateRoster($username, $jid, $nickname, $subscription]);
 ```
 
 ### Chat room related REST Endpoints
+```
+$api->getAllChatRooms();
 
+```
 
 
 

@@ -52,7 +52,8 @@ class RestClient
 	    
     	$headers = array(
   			'Accept' => 'application/json',
-  			'Authorization' => $auth
+  			'Authorization' => $auth,
+            'Content-Type'=>'application/json'
   		);
 
         $body = json_encode($params);
@@ -65,13 +66,11 @@ class RestClient
         	$result = $e->message;
         }
 	        
-
-
         
         if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
-            return array('status'=>true, 'message'=>json_decode($result->getBody()));
+            return array('status'=>true, 'data'=>json_decode($result->getBody()));
         }
-        return array('status'=>false, 'message'=>json_decode($result->getBody()));
+        return array('status'=>false, 'data'=>json_decode($result->getBody()));
     	
     }
     

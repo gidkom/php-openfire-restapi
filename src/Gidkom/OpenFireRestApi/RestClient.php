@@ -62,8 +62,8 @@ class RestClient
 
         try {
         	$result = $this->client->request($type, $url, compact('headers','body'));
-        } catch (Exception $e) {
-        	$result = $e->message;
+        } catch (\Exception $e) {
+        	return  ['status'=>false, 'data'=>['message'=>$e->getMessage()]];
         }
 	        
         

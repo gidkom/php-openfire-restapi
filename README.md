@@ -65,11 +65,11 @@ $api->plugin = "/plugins/restapi/v1";  # plugin
 if($result['status']) {
     # Display result, and check if it's an error or correct response
     echo 'Success: ';
-    echo $result['message'];
+    echo $result['data'];
 } else {
     # Something went wrong, probably connection issues
     echo 'Error: ';
-    echo $result['message'];
+    echo $result['data'];
 }
 
 ```
@@ -121,7 +121,7 @@ $api->updateRoster($username, $jid, $nickname, $subscription]);
 
 ```
 
-### Chat room related REST Endpoints
+### Chat room related Endpoints
 ```
 # Get all chat rooms
 $api->getAllChatRooms();
@@ -142,12 +142,25 @@ $api->createChatRoom($roomName =>$params);
 
 # Add user with role to chat room
 $api->addUserRoleToChatRoom($roomName, $name, $role);
-
-
-
-
 ```
 
+### System related Endpoints
+```
+# Retrieve all system properties
+$api->getSystemProperties();
+
+# Retrieve a system property
+$api->getSystemProperty('plugin.restapi.httpAuth');
+
+# Create a system property
+$api->createSystemProperty(['key'=>'test', 'value'=>'testname']);
+
+# Update a system property
+$api->updateSystemProperty(['key'=>'test', 'value'=>'testname']);
+
+# Delete a system property
+$api->deleteSystemProperty('test');
+```
 
 
 

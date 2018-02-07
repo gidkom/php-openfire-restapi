@@ -412,4 +412,63 @@ class OpenFireRestApi extends RestClient
     {
         return $this->doRequest('DELETE', '/chatrooms/'.$roomName.'/'.$roles.'/'.$name);
     }
+
+
+    /**
+     * Retrieve all system properties
+     *
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function getSystemProperties()
+    {
+        return $this->doRequest('GET', '/system/properties');
+    }
+
+    /**
+     * Retrieve a system property
+     *
+     * @param   string      $name                Name of property
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function getSystemProperty($propertyName)
+    {
+        return $this->doRequest('GET', '/system/properties/'.$propertyName);
+    }
+
+
+    /**
+     * Create a system property
+     *
+     * @param   array      $data                new property with value
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function createSystemProperty($data)
+    {
+        return $this->doRequest('POST', '/system/properties', $data);
+    }
+
+
+    /**
+     * Update a system property
+     *
+     * @param   string     $propertyName        name of property to update
+     * @param   array      $data                new property with value
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function updateSystemProperty($propertyName, $data)
+    {
+        return $this->doRequest('POST', '/system/properties/'.$propertyName, $data);
+    }
+
+
+    /**
+     * Delete a system property
+     *
+     * @param   array      $data                new property with value
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function deleteSystemProperty($propertyName)
+    {
+        return $this->doRequest('DELETE', '/system/properties/'.$propertyName);
+    }
 }

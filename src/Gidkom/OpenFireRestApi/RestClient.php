@@ -25,13 +25,6 @@ class RestClient
 		$this->client = new Client();
 	}
 
-	public function geti()
-	{
-		return $this->host. '  '. $this->secret;
-	}
-
-
-
     /**
      * Make the request and analyze the result
      *
@@ -57,8 +50,6 @@ class RestClient
   		);
 
         $body = json_encode($params);
-        // $headers += ['Content-Type'=>'application/json'];
-        
 
         try {
         	$result = $this->client->request($type, $url, compact('headers','body'));

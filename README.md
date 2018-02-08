@@ -25,10 +25,14 @@ The REST API plugin need to be installed and configured on the Openfire server.
 -------------
 The easiest way to install is via [composer](http:#getcomposer.org/). Create the following `composer.json` file and run the `composer.phar` install command to install it.
 
+```
+composer require gidkom/php-openfire-restapi:1.1.0
+```
+#### OR
 ```json
 {
     "require": {
-        "gidkom/php-openfire-restapi": "dev-master"
+        "gidkom/php-openfire-restapi": "1.1.0"
     }
 }
 ```
@@ -63,11 +67,10 @@ $api->plugin = "/plugins/restapi/v1";  # plugin
 ```
 # Check result if command is succesful
 if($result['status']) {
-    # Display result, and check if it's an error or correct response
-    echo 'Success: ';
-    echo $result['data'];
+    # Display result
+    print_r($result['data']);
 } else {
-    # Something went wrong, probably connection issues
+    # Something went wrong
     echo 'Error: ';
     echo $result['data'];
 }
@@ -160,36 +163,49 @@ $api->updateSystemProperty(['key'=>'test', 'value'=>'testname']);
 
 # Delete a system property
 $api->deleteSystemProperty('test');
+
+# Retrieve concurrent sessions
+$api->getConcurrentSessons();
 ```
 
-
-
-
-
-
-
-
-
-
-
-
+### Group related Endpoints
 ```
 # Get all groups
 $api->getGroups();
 
 # Retrieve group 
-$api->getGroup($name);
+$api->getGroup($groupName);
 
 # Create a group
-$api->createGroup($group_name, $description);
+$api->createGroup($groupName, $description);
 
 # Update a group description
-$api->updateGroup($group_name, $description);
+$api->updateGroup($groupName, $description);
 
 # Delete a group
-$api->deleteGroup($group_name);
+$api->deleteGroup($groupName);
 
 ```
+
+### Session related Endpoints
+```
+# Retrieve all users sessions
+$api->getSessions();
+
+# Retrieve all users sessions
+$api->getUserSessions($username);
+
+# Close all user sessions
+$api->closeUserSessions($username);
+
+```
+
+### Message related Endpoints
+```
+# Send a broadcast message to all online users
+$api->broadcastMessage('hello');
+```
+
 
 ## CONTACT
 - gidkom <yoroumah@gmail.com>

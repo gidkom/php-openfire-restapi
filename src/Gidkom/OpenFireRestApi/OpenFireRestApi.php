@@ -226,78 +226,7 @@ class OpenFireRestApi extends RestClient
         return $this->doRequest('PUT', $endpoint, $jid, compact('jid','username','subscriptionType'));     
     }
 
-    /**
-     * Get all groups
-     *
-     * @return  json|false      Json with data or error, or False when something went fully wrong
-     */
-    public function getGroups()
-    {
-        $endpoint = '/groups';
-        return $this->doRequest('GET', $endpoint);
-    }
-
-    /**
-     *  Retrieve a group
-     *
-     * @param  string   $name                       Name of group
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
-     */
-    public function getGroup($name)
-    {
-        $endpoint = '/groups/'.$name;
-        return $this->doRequest('GET', $endpoint);
-    }
-
-    /**
-     * Create a group 
-     *
-     * @param   string   $name                      Name of the group
-     * @param   string   $description               Some description of the group
-     *
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
-     */
-    public function createGroup($name, $description = false)
-    {
-        $endpoint = '/groups/';
-        return $this->doRequest('POST', $endpoint, compact('name','description'));
-    }
-
-    /**
-     * Delete a group
-     *
-     * @param   string      $name               Name of the Group to delete
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
-     */
-    public function deleteGroup($name)
-    {
-        $endpoint = '/groups/'.$name;
-        return $this->doRequest('DELETE', $endpoint);
-    }
-
-    /**
-     * Update a group (description)
-     *
-     * @param   string      $name               Name of group
-     * @param   string      $description        Some description of the group
-     *
-     */
-    public function updateGroup($name,  $description)
-    {
-        $endpoint = '/groups/'.$name;
-        return $this->doRequest('PUT', $endpoint, compact('name','description'));
-    }
-
-    /**
-     * Gell all active sessions
-     *
-     * @return json|false       Json with data or error, or False when something went fully wrong
-     */
-    public function getSessions()
-    {
-        $endpoint = '/sessions';
-        return $this->doRequest('GET', $endpoint);
-    }
+   
 
 
     /**
@@ -471,4 +400,128 @@ class OpenFireRestApi extends RestClient
     {
         return $this->doRequest('DELETE', '/system/properties/'.$propertyName);
     }
+
+
+    /**
+     * Retrieve concurrent sessions
+     *
+     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     */
+    public function getConcurrentSessons()
+    {
+        return $this->doRequest('GET', '/system/statistics/sessions');
+    }
+
+
+     /**
+     * Get all groups
+     *
+     * @return  json|false      Json with data or error, or False when something went fully wrong
+     */
+    public function getGroups()
+    {
+        $endpoint = '/groups';
+        return $this->doRequest('GET', $endpoint);
+    }
+
+    /**
+     *  Retrieve a group
+     *
+     * @param  string   $name                       Name of group
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function getGroup($name)
+    {
+        $endpoint = '/groups/'.$name;
+        return $this->doRequest('GET', $endpoint);
+    }
+
+    /**
+     * Create a group 
+     *
+     * @param   string   $name                      Name of the group
+     * @param   string   $description               Some description of the group
+     *
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function createGroup($name, $description = false)
+    {
+        $endpoint = '/groups/';
+        return $this->doRequest('POST', $endpoint, compact('name','description'));
+    }
+
+    /**
+     * Delete a group
+     *
+     * @param   string      $name               Name of the Group to delete
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function deleteGroup($name)
+    {
+        $endpoint = '/groups/'.$name;
+        return $this->doRequest('DELETE', $endpoint);
+    }
+
+    /**
+     * Update a group (description)
+     *
+     * @param   string      $name               Name of group
+     * @param   string      $description        Some description of the group
+     *
+     */
+    public function updateGroup($name,  $description)
+    {
+        $endpoint = '/groups/'.$name;
+        return $this->doRequest('PUT', $endpoint, compact('name','description'));
+    }
+
+
+    /**
+     * Retrieve all sessions
+     *
+     * @return json|false       Json with data or error, or False when something went fully wrong
+     */
+    public function getSessions()
+    {
+        $endpoint = '/sessions';
+        return $this->doRequest('GET', $endpoint);
+    }
+
+    /**
+     * Retrieve all user sessions
+     *
+     * @param   string      $username               Username of user
+     * @return json|false       Json with data or error, or False when something went fully wrong
+     */
+    public function getUserSessions($username)
+    {
+        $endpoint = '/sessions/'.$username;
+        return $this->doRequest('GET', $endpoint);
+    }
+
+
+    /**
+     * Close all user sessions
+     * @param string      $username               Username of user 
+     * @return json|false       Json with data or error, or False when something went fully wrong
+     */
+    public function closeUserSessions($username)
+    {
+        $endpoint = '/sessions/'.$username;
+        return $this->doRequest('DELETE', $endpoint);
+    }
+
+    /**
+     * Send a broadcast message to all online users
+     *
+     * @param  string      $content               message to send
+     * @return json|false       Json with data or error, or False when something went fully wrong
+     */
+    public function broadcastMessage($message = '')
+    {
+        $content =['body'=> $message];
+        $endpoint = '/messages/users';
+        return $this->doRequest('POST', $endpoint, $content);
+    }
+
 }

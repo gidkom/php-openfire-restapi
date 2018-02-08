@@ -26,13 +26,13 @@ The REST API plugin need to be installed and configured on the Openfire server.
 The easiest way to install is via [composer](http:#getcomposer.org/). Create the following `composer.json` file and run the `composer.phar` install command to install it.
 
 ```
-composer require gidkom/php-openfire-restapi:1.1.0
+composer require gidkom/php-openfire-restapi:v1.1.0
 ```
 #### OR
 ```json
 {
     "require": {
-        "gidkom/php-openfire-restapi": "1.1.0"
+        "gidkom/php-openfire-restapi": "v1.1.0"
     }
 }
 ```

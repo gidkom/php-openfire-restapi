@@ -213,15 +213,15 @@ class OpenFireRestApi extends RestClient
      * Updates this OpenFire user's roster
      *
      * @param   string          $username           Username
-     * @param   string          $jid                 JID
+     * @param   string          $JID                JID
      * @param   string|false    $nickname           Nick Name (Optional)
-     * @param   int|false       $subscriptionType   Subscription (Optional)
+     * @param   int|null        $subscriptionType   Subscription (Optional)
      * @return  json|false                          Json with data or error, or False when something went fully wrong
      */
-    public function updateRoster($username, $jid, $nickname=false, $subscriptionType=false)
+    public function updateRoster($username, $jid, $nickname=false, $subscriptionType=null)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
-        return $this->doRequest('PUT', $endpoint, $jid, compact('jid','username','subscriptionType'));     
+        return $this->doRequest('PUT', $endpoint, compact('jid','nickname','subscriptionType'));
     }
 
    

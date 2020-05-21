@@ -185,14 +185,14 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string          $username       	Username
      * @param   string          $jid            	JID
-     * @param   string|false    $name           	Name         (Optional)
-     * @param   int|false       $subscriptionType   	Subscription (Optional)
+     * @param   string|false    $nickname           Name         (Optional)
+     * @param   int|null        $subscriptionType   Subscription (Optional)
      * @return  json|false                     		Json with data or error, or False when something went fully wrong
      */
-    public function addToRoster($username, $jid, $name=false, $subscriptionType=false)
+    public function addToRoster($username, $jid, $nickname=false, $subscriptionType=null)
     {
         $endpoint = '/users/'.$username.'/roster';
-        return $this->doRequest('POST', $endpoint, compact('jid','name','subscriptionType'));
+        return $this->doRequest('POST', $endpoint, compact('jid','nickname','subscriptionType'));
     }
 
 

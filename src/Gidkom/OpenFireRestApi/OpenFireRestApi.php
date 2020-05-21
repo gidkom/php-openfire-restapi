@@ -79,13 +79,12 @@ class OpenFireRestApi extends RestClient
      * @param   string|false    $password   Password (Optional)
      * @param   string|false    $name       Name (Optional)
      * @param   string|false    $email      Email (Optional)
-     * @param   string[]|false  $groups     Groups (Optional)
      * @return  json|false                 Json with data or error, or False when something went fully wrong
      */
-    public function updateUser($username, $password, $name=false, $email=false, $groups=false)
+    public function updateUser($username, $password, $name=false, $email=false)
     {
         $endpoint = '/users/'.$username; 
-        return $this->doRequest('PUT', $endpoint, compact('username', 'password','name','email', 'groups'));
+        return $this->doRequest('PUT', $endpoint, compact('username', 'password','name','email'));
     }
 
 

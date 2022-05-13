@@ -224,6 +224,18 @@ class OpenFireRestApi extends RestClient
         return $this->doRequest('PUT', $endpoint, compact('jid','nickname','subscriptionType'));
     }
 
+    /**
+     * Push roster event to this OpenFire user
+     *
+     * @param   string          $username           Username
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function pushRosterEvent($username)
+    {
+        $endpoint = '/users/'.$username.'/roster/push';
+        return $this->doRequest('POST', $endpoint);
+    }
+
    
 
 

@@ -79,13 +79,12 @@ class OpenFireRestApi extends RestClient
      * @param   string|false    $password   Password (Optional)
      * @param   string|false    $name       Name (Optional)
      * @param   string|false    $email      Email (Optional)
-     * @param   string[]|false  $groups     Groups (Optional)
      * @return  json|false                 Json with data or error, or False when something went fully wrong
      */
-    public function updateUser($username, $password, $name=false, $email=false, $groups=false)
+    public function updateUser($username, $password, $name=false, $email=false)
     {
         $endpoint = '/users/'.$username; 
-        return $this->doRequest('PUT', $endpoint, compact('username', 'password','name','email', 'groups'));
+        return $this->doRequest('PUT', $endpoint, compact('username', 'password','name','email'));
     }
 
 
@@ -186,14 +185,14 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string          $username       	Username
      * @param   string          $jid            	JID
-     * @param   string|false    $name           	Name         (Optional)
-     * @param   int|false       $subscriptionType   	Subscription (Optional)
+     * @param   string|false    $nickname           Name         (Optional)
+     * @param   int|null        $subscriptionType   Subscription (Optional)
      * @return  json|false                     		Json with data or error, or False when something went fully wrong
      */
-    public function addToRoster($username, $jid, $name=false, $subscriptionType=false)
+    public function addToRoster($username, $jid, $nickname=false, $subscriptionType=null)
     {
         $endpoint = '/users/'.$username.'/roster';
-        return $this->doRequest('POST', $endpoint, compact('jid','name','subscriptionType'));
+        return $this->doRequest('POST', $endpoint, compact('jid','nickname','subscriptionType'));
     }
 
 
@@ -214,15 +213,27 @@ class OpenFireRestApi extends RestClient
      * Updates this OpenFire user's roster
      *
      * @param   string          $username           Username
-     * @param   string          $jid                 JID
+     * @param   string          $JID                JID
      * @param   string|false    $nickname           Nick Name (Optional)
-     * @param   int|false       $subscriptionType   Subscription (Optional)
+     * @param   int|null        $subscriptionType   Subscription (Optional)
      * @return  json|false                          Json with data or error, or False when something went fully wrong
      */
-    public function updateRoster($username, $jid, $nickname=false, $subscriptionType=false)
+    public function updateRoster($username, $jid, $nickname=false, $subscriptionType=null)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
-        return $this->doRequest('PUT', $endpoint, $jid, compact('jid','username','subscriptionType'));     
+        return $this->doRequest('PUT', $endpoint, compact('jid','nickname','subscriptionType'));
+    }
+
+    /**
+     * Push roster event to this OpenFire user
+     *
+     * @param   string          $username           Username
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function pushRosterEvent($username)
+    {
+        $endpoint = '/users/'.$username.'/roster/push';
+        return $this->doRequest('POST', $endpoint);
     }
 
    
@@ -523,4 +534,16 @@ class OpenFireRestApi extends RestClient
         return $this->doRequest('POST', $endpoint, $content);
     }
 
+    /**
+     * Clear messages history
+     *
+     * @param   string          $username   Username
+     * @param   string          $targetUsername   Username to clear messages history
+     * @return  json|false      Json with data or error, or False when something went fully wrong
+     */
+    public function clearMessages($username, $targetUsername)
+    {
+        $endpoint = '/archive/messages/'.$username.'/'.$targetUsername;
+        return $this->doRequest('DELETE', $endpoint );
+    }
 }

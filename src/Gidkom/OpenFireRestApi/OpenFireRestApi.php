@@ -534,4 +534,16 @@ class OpenFireRestApi extends RestClient
         return $this->doRequest('POST', $endpoint, $content);
     }
 
+    /**
+     * Clear messages history
+     *
+     * @param   string          $username   Username
+     * @param   string          $targetUsername   Username to clear messages history
+     * @return  json|false      Json with data or error, or False when something went fully wrong
+     */
+    public function clearMessages($username, $targetUsername)
+    {
+        $endpoint = '/archive/messages/'.$username.'/'.$targetUsername;
+        return $this->doRequest('DELETE', $endpoint );
+    }
 }

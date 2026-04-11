@@ -87,15 +87,21 @@ $result = $api->getUsers($options);
 # Retrieve a user
 $result = $api->getUser($username);
 
-# Add a new user to OpenFire and add to a group
-$result = $api->addUser('Username', 'Password', 'Real Name', 'johndoe@domain.com', array('Group 1'));
+# Add a new user to OpenFire
+# The $name and $email arguments are optional
+$result = $api->addUser('Username', 'Password', 'Real Name', 'johndoe@domain.com');
+
+# To also add the new user to one or more groups, call addToGroup afterwards:
+$api->addToGroup('Username', 'Group 1');
 
 #Delete a user from OpenFire
 $result = $api->deleteUser($username);
 
 # Update a user
-# The $password, $name, $email, $groups arguments are optional
-$result = $api->updateUser($username, $password, $name, $email, $groups);
+# The $password, $name, $email arguments are optional.
+# Note: Openfire's UserEntity does not accept a groups field — use addToGroup
+# (or deleteFromGroup) to manage group membership for an existing user.
+$result = $api->updateUser($username, $password, $name, $email);
 
 # Add user to a group
 $result = $api->addToGroup($username, $groupName);
@@ -113,13 +119,14 @@ $result = $api->unlockUser($username);
 $api->userRosters($username);
 
 # Create a user roster entry
-$api->addToRoster($username, $jid);
+# The $nickname and $subscriptionType arguments are optional
+$api->addToRoster($username, $jid, $nickname, $subscriptionType);
 
 # Delete from roster
 $api->deleteFromRoster($username, $jid);
 
 # Update user roster
-$api->updateRoster($username, $jid, $nickname, $subscription]);
+$api->updateRoster($username, $jid, $nickname, $subscriptionType);
 
 
 ```

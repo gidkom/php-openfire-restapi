@@ -75,17 +75,23 @@ class OpenFireRestApi extends RestClient
     /**
      * Updates an OpenFire user
      *
+     * Note: Openfire's UserEntity does not accept a `groups` field. Use
+     * {@see addToGroup()} / {@see addToGroups()} to manage group membership.
+     *
      * @param   string          $username   Username
      * @param   string|false    $password   Password (Optional)
      * @param   string|false    $name       Name (Optional)
      * @param   string|false    $email      Email (Optional)
-     * @param   string[]|false  $groups     Groups (Optional)
      * @return  json|false                 Json with data or error, or False when something went fully wrong
      */
-    public function updateUser($username, $password, $name=false, $email=false, $groups=false)
+    public function updateUser($username, $password=false, $name=false, $email=false)
     {
-        $endpoint = '/users/'.$username; 
-        return $this->doRequest('PUT', $endpoint, compact('username', 'password','name','email', 'groups'));
+        $endpoint = '/users/'.$username;
+        $payload = array_filter(
+            compact('username', 'password', 'name', 'email'),
+            function ($v) { return $v !== false && $v !== null; }
+        );
+        return $this->doRequest('PUT', $endpoint, $payload);
     }
 
 
@@ -177,23 +183,27 @@ class OpenFireRestApi extends RestClient
     public function userRosters($username)
     {
         $endpoint = '/users/'.$username.'/roster';
-        return $this->doRequest('GET', $endpoint, compact('jid','name','subscriptionType'));
+        return $this->doRequest('GET', $endpoint);
     }
 
 
     /**
      * Adds to this OpenFire user's roster
      *
-     * @param   string          $username       	Username
-     * @param   string          $jid            	JID
-     * @param   string|false    $name           	Name         (Optional)
-     * @param   int|false       $subscriptionType   	Subscription (Optional)
-     * @return  json|false                     		Json with data or error, or False when something went fully wrong
+     * @param   string          $username           Username
+     * @param   string          $jid                JID
+     * @param   string|false    $nickname           Nickname     (Optional)
+     * @param   int|false       $subscriptionType   Subscription (Optional)
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
      */
-    public function addToRoster($username, $jid, $name=false, $subscriptionType=false)
+    public function addToRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster';
-        return $this->doRequest('POST', $endpoint, compact('jid','name','subscriptionType'));
+        $payload = array_filter(
+            compact('jid', 'nickname', 'subscriptionType'),
+            function ($v) { return $v !== false && $v !== null; }
+        );
+        return $this->doRequest('POST', $endpoint, $payload);
     }
 
 
@@ -207,7 +217,7 @@ class OpenFireRestApi extends RestClient
     public function deleteFromRoster($username, $jid)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
-        return $this->doRequest('DELETE', $endpoint, $jid);
+        return $this->doRequest('DELETE', $endpoint);
     }
 
     /**
@@ -222,7 +232,11 @@ class OpenFireRestApi extends RestClient
     public function updateRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
-        return $this->doRequest('PUT', $endpoint, $jid, compact('jid','username','subscriptionType'));     
+        $payload = array_filter(
+            compact('jid', 'nickname', 'subscriptionType'),
+            function ($v) { return $v !== false && $v !== null; }
+        );
+        return $this->doRequest('PUT', $endpoint, $payload);
     }
 
    

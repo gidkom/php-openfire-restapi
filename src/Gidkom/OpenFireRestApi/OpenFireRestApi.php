@@ -239,7 +239,24 @@ class OpenFireRestApi extends RestClient
         return $this->doRequest('PUT', $endpoint, $payload);
     }
 
-   
+
+    /**
+     * Push a roster event to an OpenFire user
+     *
+     * Triggers Openfire to re-push the roster to this user's connected
+     * resources. Useful after bulk roster updates so clients pick up
+     * the changes without reconnecting.
+     *
+     * @param   string          $username           Username
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function pushRosterEvent($username)
+    {
+        $endpoint = '/users/'.$username.'/roster/push';
+        return $this->doRequest('POST', $endpoint);
+    }
+
+
 
 
     /**
@@ -535,6 +552,23 @@ class OpenFireRestApi extends RestClient
         $content =['body'=> $message];
         $endpoint = '/messages/users';
         return $this->doRequest('POST', $endpoint, $content);
+    }
+
+    /**
+     * Clear the archived message history between two users
+     *
+     * Note: this endpoint is provided by Openfire's Monitoring Service
+     * plugin (exposed via the REST API plugin). It will only succeed on
+     * servers where both plugins are installed and enabled.
+     *
+     * @param   string          $username           Username whose archive to clear
+     * @param   string          $targetUsername     Conversation partner username
+     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     */
+    public function clearMessages($username, $targetUsername)
+    {
+        $endpoint = '/archive/messages/'.$username.'/'.$targetUsername;
+        return $this->doRequest('DELETE', $endpoint);
     }
 
 }

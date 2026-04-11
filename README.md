@@ -128,6 +128,8 @@ $api->deleteFromRoster($username, $jid);
 # Update user roster
 $api->updateRoster($username, $jid, $nickname, $subscriptionType);
 
+# Push a roster event to a user's connected resources
+$api->pushRosterEvent($username);
 
 ```
 
@@ -211,6 +213,10 @@ $api->closeUserSessions($username);
 ```
 # Send a broadcast message to all online users
 $api->broadcastMessage('hello');
+
+# Clear archived message history between two users
+# Requires Openfire Monitoring Service plugin to be installed
+$api->clearMessages($username, $targetUsername);
 ```
 
 

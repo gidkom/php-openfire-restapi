@@ -1,6 +1,6 @@
 {
     "name": "gidkom/php-openfire-restapi",
-    "description": "Manage Open fire server using Rest Api",
+    "description": "Manage Openfire server using Rest Api",
     "keywords": ["openfire", "xmpp", "chat"],
     "homepage": "https://github.com/gidkom/php-openfire-restapi",
     "license": "MIT",

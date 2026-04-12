@@ -2,8 +2,6 @@
 	
 namespace Gidkom\OpenFireRestApi;
 
-use \Gidkom\OpenFireRestApi\RestClient;
-
 class OpenFireRestApi extends RestClient
 {
 
@@ -11,10 +9,15 @@ class OpenFireRestApi extends RestClient
     public function __construct()
     {
         parent::__construct();
+    }
 
-    }   
-
-    
+    protected function filterPayload(array $params)
+    {
+        return array_filter(
+            $params,
+            function ($v) { return $v !== false && $v !== null; }
+        );
+    }
 
     /**
      * Get all registered users
@@ -24,13 +27,14 @@ class OpenFireRestApi extends RestClient
     public function getUsers($opts = [])
     {
         $query = '';
-        
-        if(isset($opts['search'])) $query .= '?search='.$opts['search'];
-        
-    	$endpoint = '/users'.$query;        
-    	return $this->doRequest('GET', $endpoint);
-    }
 
+        if (isset($opts['search'])) {
+            $query .= '?search=' . rawurlencode($opts['search']);
+        }
+
+        $endpoint = '/users' . $query;
+        return $this->doRequest('GET', $endpoint);
+    }
 
     /**
      * Get information for a specified user
@@ -55,8 +59,9 @@ class OpenFireRestApi extends RestClient
      */
     public function addUser($username, $password, $name=false, $email=false)
     {
-        $endpoint = '/users'; 
-        return $this->doRequest('POST', $endpoint, compact('username', 'password','name','email'));
+        $endpoint = '/users';
+        $payload = $this->filterPayload(compact('username', 'password', 'name', 'email'));
+        return $this->doRequest('POST', $endpoint, $payload);
     }
 
 
@@ -87,10 +92,7 @@ class OpenFireRestApi extends RestClient
     public function updateUser($username, $password=false, $name=false, $email=false)
     {
         $endpoint = '/users/'.$username;
-        $payload = array_filter(
-            compact('username', 'password', 'name', 'email'),
-            function ($v) { return $v !== false && $v !== null; }
-        );
+        $payload = $this->filterPayload(compact('password', 'name', 'email'));
         return $this->doRequest('PUT', $endpoint, $payload);
     }
 
@@ -124,13 +126,13 @@ class OpenFireRestApi extends RestClient
      * Add user to a group
      *
      * @param   string          $username   Username
-     * @param   string           $groups   Groups to add user
+     * @param   string          $groupName  Group to add user
      * @return  json|false                 Json with data or error, or False when something went fully wrong
      */
     public function addToGroup($username, $groupName)
     {
-        $endpoint = '/users/'.$username.'/groups/'.$groupName; 
-        return $this->doRequest('POST', $endpoint );
+        $endpoint = '/users/'.$username.'/groups/'.$groupName;
+        return $this->doRequest('POST', $endpoint);
     }
 
 
@@ -138,7 +140,7 @@ class OpenFireRestApi extends RestClient
      * Delete user from a group
      *
      * @param   string          $username   Username
-     * @param   string           $groups   Groups to add user
+     * @param   string          $groupName  Group to remove user from
      * @return  json|false                 Json with data or error, or False when something went fully wrong
      */
     public function deleteFromGroup($username, $groupName)
@@ -232,10 +234,7 @@ class OpenFireRestApi extends RestClient
     public function updateRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
         $endpoint = '/users/'.$username.'/roster/'.$jid;
-        $payload = array_filter(
-            compact('jid', 'nickname', 'subscriptionType'),
-            function ($v) { return $v !== false && $v !== null; }
-        );
+        $payload = $this->filterPayload(compact('nickname', 'subscriptionType'));
         return $this->doRequest('PUT', $endpoint, $payload);
     }
 
@@ -260,8 +259,9 @@ class OpenFireRestApi extends RestClient
 
 
     /**
-     * Gell all active sessions
+     * Get a chat room by name
      *
+     * @param   string          $name               Name of the chat room
      * @return json|false       Json with data or error, or False when something went fully wrong
      */
     public function getChatRoom($name)
@@ -270,7 +270,7 @@ class OpenFireRestApi extends RestClient
     }
 	
     /**
-     * Gell all chat rooms
+     * Get all chat rooms
      *
      * @return json|false       Json with data or error, or False when something went fully wrong
      */
@@ -340,7 +340,9 @@ class OpenFireRestApi extends RestClient
     /**
      * Add user with role to chatroom
      *
-     * @param   string      $name               Name of the user or jid
+     * @param   string      $roomName           Name of the chatroom
+     * @param   string      $name               Name of the user or JID
+     * @param   string      $roles              Role to assign (e.g. owners, admins, members)
      * @return  json|false                       Json with data or error, or False when something went fully wrong
      */
     public function addUserRoleToChatRoom($roomName, $name, $roles)
@@ -352,7 +354,9 @@ class OpenFireRestApi extends RestClient
     /**
      * Add group with role to chatroom
      *
+     * @param   string      $roomName           Name of the chatroom
      * @param   string      $name               Name of the group
+     * @param   string      $roles              Role to assign (e.g. owners, admins, members)
      * @return  json|false                       Json with data or error, or False when something went fully wrong
      */
     public function addGroupRoleToChatRoom($roomName, $name, $roles)
@@ -364,7 +368,9 @@ class OpenFireRestApi extends RestClient
     /**
      * Delete a user from a chat room
      *
-     * @param   string      $name               Name of the group
+     * @param   string      $roomName           Name of the chatroom
+     * @param   string      $name               Name of the user or JID
+     * @param   string      $roles              Role segment in the endpoint
      * @return  json|false                       Json with data or error, or False when something went fully wrong
      */
     public function deleteChatRoomUser($roomName, $name, $roles)
@@ -437,13 +443,23 @@ class OpenFireRestApi extends RestClient
      *
      * @return  json|false                       Json with data or error, or False when something went fully wrong
      */
-    public function getConcurrentSessons()
+    public function getConcurrentSessions()
     {
         return $this->doRequest('GET', '/system/statistics/sessions');
     }
 
+    /**
+     * Backward-compatible alias for getConcurrentSessions().
+     *
+     * @return  json|false
+     */
+    public function getConcurrentSessons()
+    {
+        return $this->getConcurrentSessions();
+    }
 
-     /**
+
+    /**
      * Get all groups
      *
      * @return  json|false      Json with data or error, or False when something went fully wrong
@@ -467,7 +483,7 @@ class OpenFireRestApi extends RestClient
     }
 
     /**
-     * Create a group 
+     * Create a group
      *
      * @param   string   $name                      Name of the group
      * @param   string   $description               Some description of the group
@@ -476,8 +492,9 @@ class OpenFireRestApi extends RestClient
      */
     public function createGroup($name, $description = false)
     {
-        $endpoint = '/groups/';
-        return $this->doRequest('POST', $endpoint, compact('name','description'));
+        $endpoint = '/groups';
+        $payload = $this->filterPayload(compact('name', 'description'));
+        return $this->doRequest('POST', $endpoint, $payload);
     }
 
     /**
@@ -499,10 +516,11 @@ class OpenFireRestApi extends RestClient
      * @param   string      $description        Some description of the group
      *
      */
-    public function updateGroup($name,  $description)
+    public function updateGroup($name, $description)
     {
         $endpoint = '/groups/'.$name;
-        return $this->doRequest('PUT', $endpoint, compact('name','description'));
+        $payload = $this->filterPayload(compact('description'));
+        return $this->doRequest('PUT', $endpoint, $payload);
     }
 
 
@@ -544,12 +562,12 @@ class OpenFireRestApi extends RestClient
     /**
      * Send a broadcast message to all online users
      *
-     * @param  string      $content               message to send
+     * @param  string      $message               Message to send
      * @return json|false       Json with data or error, or False when something went fully wrong
      */
     public function broadcastMessage($message = '')
     {
-        $content =['body'=> $message];
+        $content = ['body' => $message];
         $endpoint = '/messages/users';
         return $this->doRequest('POST', $endpoint, $content);
     }

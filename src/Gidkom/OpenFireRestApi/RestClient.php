@@ -46,24 +46,31 @@ class RestClient
     	$headers = array(
   			'Accept' => 'application/json',
   			'Authorization' => $auth,
-            'Content-Type'=>'application/json'
-  		);
+            'Content-Type' => 'application/json'
+        );
 
-        $body = json_encode($params);
+        $options = [
+            'headers' => $headers,
+        ];
+
+        if (!empty($params)) {
+            if (strtoupper($type) === 'GET') {
+                $options['query'] = $params;
+            } else {
+                $options['json'] = $params;
+            }
+        }
 
         try {
-        	$result = $this->client->request($type, $url, compact('headers','body'));
+            $result = $this->client->request($type, $url, $options);
         } catch (\Exception $e) {
-        	return  ['status'=>false, 'data'=>['message'=>$e->getMessage()]];
+            return ['status' => false, 'data' => ['message' => $e->getMessage()]];
         }
-	        
-        
-        if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
-            return array('status'=>true, 'data'=>json_decode($result->getBody()));
-        }
-        return array('status'=>false, 'data'=>json_decode($result->getBody()));
-    	
-    }
-    
 
+        if ($result->getStatusCode() == 200 || $result->getStatusCode() == 201) {
+            return ['status' => true, 'data' => json_decode($result->getBody(), true)];
+        }
+
+        return ['status' => false, 'data' => json_decode($result->getBody(), true)];
+    }
 }

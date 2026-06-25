@@ -22,7 +22,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Get all registered users
      *
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function getUsers($opts = [])
     {
@@ -39,7 +39,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Get information for a specified user
      *
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function getUser($username)
     {
@@ -55,7 +55,7 @@ class OpenFireRestApi extends RestClient
      * @param   string          $password   Password
      * @param   string|false    $name       Name    (Optional)
      * @param   string|false    $email      Email   (Optional)
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function addUser($username, $password, $name=false, $email=false)
     {
@@ -69,7 +69,7 @@ class OpenFireRestApi extends RestClient
      * Deletes an OpenFire user
      *
      * @param   string          $username   Username
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function deleteUser($username)
     {
@@ -87,7 +87,7 @@ class OpenFireRestApi extends RestClient
      * @param   string|false    $password   Password (Optional)
      * @param   string|false    $name       Name (Optional)
      * @param   string|false    $email      Email (Optional)
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function updateUser($username, $password=false, $name=false, $email=false)
     {
@@ -101,7 +101,7 @@ class OpenFireRestApi extends RestClient
      * Retrieve all user groups
      *
      * @param   string          $username   Username
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function userGroups($username)
     {
@@ -114,7 +114,7 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string          $username   Username
      * @param   Array           $groups   Groups to add user
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function addToGroups($username, $groups)
     {
@@ -127,7 +127,7 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string          $username   Username
      * @param   string          $groupName  Group to add user
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function addToGroup($username, $groupName)
     {
@@ -141,7 +141,7 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string          $username   Username
      * @param   string          $groupName  Group to remove user from
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function deleteFromGroup($username, $groupName)
     {
@@ -154,7 +154,7 @@ class OpenFireRestApi extends RestClient
      * lockout/Disable an OpenFire user
      *
      * @param   string          $username   Username
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function lockoutUser($username)
     {
@@ -167,7 +167,7 @@ class OpenFireRestApi extends RestClient
      * unlocks an OpenFire user
      *
      * @param   string          $username   Username
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function unlockUser($username)
     {
@@ -180,7 +180,7 @@ class OpenFireRestApi extends RestClient
      * List user rosters
      *
      * @param   string          $username           Username
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function userRosters($username)
     {
@@ -196,7 +196,7 @@ class OpenFireRestApi extends RestClient
      * @param   string          $jid                JID
      * @param   string|false    $nickname           Nickname     (Optional)
      * @param   int|false       $subscriptionType   Subscription (Optional)
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function addToRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
@@ -214,7 +214,7 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string          $username   Username
      * @param   string          $jid        JID
-     * @return  json|false                 Json with data or error, or False when something went fully wrong
+     * @return  array|false                 Array with data or error, or False when something went fully wrong
      */
     public function deleteFromRoster($username, $jid)
     {
@@ -229,7 +229,7 @@ class OpenFireRestApi extends RestClient
      * @param   string          $jid                 JID
      * @param   string|false    $nickname           Nick Name (Optional)
      * @param   int|false       $subscriptionType   Subscription (Optional)
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function updateRoster($username, $jid, $nickname=false, $subscriptionType=false)
     {
@@ -247,7 +247,7 @@ class OpenFireRestApi extends RestClient
      * the changes without reconnecting.
      *
      * @param   string          $username           Username
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function pushRosterEvent($username)
     {
@@ -262,7 +262,7 @@ class OpenFireRestApi extends RestClient
      * Get a chat room by name
      *
      * @param   string          $name               Name of the chat room
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function getChatRoom($name)
     {
@@ -272,7 +272,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Get all chat rooms
      *
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function getAllChatRooms()
     {
@@ -283,10 +283,10 @@ class OpenFireRestApi extends RestClient
     /**
      * Create a chat room
      *
-     * @param   string          $params        Params
-     * @return  json|false                     Json with data or error, or False when something went fully wrong
+     * @param   array           $params        Params
+     * @return  array|false                     Array with data or error, or False when something went fully wrong
      */
-    public function createChatRoom($params = [])
+    public function createChatRoom(array $params = [])
     {
         return $this->doRequest('POST', '/chatrooms', $params);
     }
@@ -295,10 +295,11 @@ class OpenFireRestApi extends RestClient
     /**
      * Update a chat room
      *
-     * @param   string          $params        Params
-     * @return  json|false                     Json with data or error, or False when something went fully wrong
+     * @param   string          $roomName      Name of the chat room
+     * @param   array           $params        Params
+     * @return  array|false                     Array with data or error, or False when something went fully wrong
      */
-    public function updateChatRoom($roomName, $params = [])
+    public function updateChatRoom($roomName, array $params = [])
     {
         return $this->doRequest('PUT', '/chatrooms/'.$roomName, $params);
     }
@@ -307,8 +308,8 @@ class OpenFireRestApi extends RestClient
     /**
      * Delete a chat room
      *
-     * @param   string      $name               Name of the Group to delete
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @param   string      $roomName           Name of the chat room to delete
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function deleteChatRoom($roomName)
     {
@@ -318,8 +319,8 @@ class OpenFireRestApi extends RestClient
     /**
      * Get chat room participants
      *
-     * @param   string      $name               Name of the chatroom
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @param   string      $roomName           Name of the chat room
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function getChatRoomParticipants($roomName)      
     {
@@ -329,8 +330,8 @@ class OpenFireRestApi extends RestClient
     /**
      * Get chat room occupants
      *
-     * @param   string      $name               Name of the chatroom
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @param   string      $roomName           Name of the chat room
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function getChatRoomOccupants($roomName)      
     {
@@ -343,7 +344,7 @@ class OpenFireRestApi extends RestClient
      * @param   string      $roomName           Name of the chatroom
      * @param   string      $name               Name of the user or JID
      * @param   string      $roles              Role to assign (e.g. owners, admins, members)
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function addUserRoleToChatRoom($roomName, $name, $roles)
     {
@@ -357,7 +358,7 @@ class OpenFireRestApi extends RestClient
      * @param   string      $roomName           Name of the chatroom
      * @param   string      $name               Name of the group
      * @param   string      $roles              Role to assign (e.g. owners, admins, members)
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function addGroupRoleToChatRoom($roomName, $name, $roles)
     {
@@ -371,7 +372,7 @@ class OpenFireRestApi extends RestClient
      * @param   string      $roomName           Name of the chatroom
      * @param   string      $name               Name of the user or JID
      * @param   string      $roles              Role segment in the endpoint
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function deleteChatRoomUser($roomName, $name, $roles)
     {
@@ -382,7 +383,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Retrieve all system properties
      *
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function getSystemProperties()
     {
@@ -392,8 +393,8 @@ class OpenFireRestApi extends RestClient
     /**
      * Retrieve a system property
      *
-     * @param   string      $name                Name of property
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @param   string      $propertyName        Name of property
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function getSystemProperty($propertyName)
     {
@@ -405,7 +406,7 @@ class OpenFireRestApi extends RestClient
      * Create a system property
      *
      * @param   array      $data                new property with value
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function createSystemProperty($data)
     {
@@ -418,7 +419,7 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string     $propertyName        name of property to update
      * @param   array      $data                new property with value
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function updateSystemProperty($propertyName, $data)
     {
@@ -429,8 +430,8 @@ class OpenFireRestApi extends RestClient
     /**
      * Delete a system property
      *
-     * @param   array      $data                new property with value
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @param   string      $propertyName        Name of property to delete
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function deleteSystemProperty($propertyName)
     {
@@ -441,7 +442,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Retrieve concurrent sessions
      *
-     * @return  json|false                       Json with data or error, or False when something went fully wrong
+     * @return  array|false                       Array with data or error, or False when something went fully wrong
      */
     public function getConcurrentSessions()
     {
@@ -451,7 +452,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Backward-compatible alias for getConcurrentSessions().
      *
-     * @return  json|false
+     * @return  array|false
      */
     public function getConcurrentSessons()
     {
@@ -462,7 +463,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Get all groups
      *
-     * @return  json|false      Json with data or error, or False when something went fully wrong
+     * @return  array|false      Array with data or error, or False when something went fully wrong
      */
     public function getGroups()
     {
@@ -474,7 +475,7 @@ class OpenFireRestApi extends RestClient
      *  Retrieve a group
      *
      * @param  string   $name                       Name of group
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function getGroup($name)
     {
@@ -488,7 +489,7 @@ class OpenFireRestApi extends RestClient
      * @param   string   $name                      Name of the group
      * @param   string   $description               Some description of the group
      *
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function createGroup($name, $description = false)
     {
@@ -501,7 +502,7 @@ class OpenFireRestApi extends RestClient
      * Delete a group
      *
      * @param   string      $name               Name of the Group to delete
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function deleteGroup($name)
     {
@@ -527,7 +528,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Retrieve all sessions
      *
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function getSessions()
     {
@@ -539,7 +540,7 @@ class OpenFireRestApi extends RestClient
      * Retrieve all user sessions
      *
      * @param   string      $username               Username of user
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function getUserSessions($username)
     {
@@ -551,7 +552,7 @@ class OpenFireRestApi extends RestClient
     /**
      * Close all user sessions
      * @param string      $username               Username of user 
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function closeUserSessions($username)
     {
@@ -563,7 +564,7 @@ class OpenFireRestApi extends RestClient
      * Send a broadcast message to all online users
      *
      * @param  string      $message               Message to send
-     * @return json|false       Json with data or error, or False when something went fully wrong
+     * @return array|false       Array with data or error, or False when something went fully wrong
      */
     public function broadcastMessage($message = '')
     {
@@ -581,7 +582,7 @@ class OpenFireRestApi extends RestClient
      *
      * @param   string          $username           Username whose archive to clear
      * @param   string          $targetUsername     Conversation partner username
-     * @return  json|false                          Json with data or error, or False when something went fully wrong
+     * @return  array|false                          Array with data or error, or False when something went fully wrong
      */
     public function clearMessages($username, $targetUsername)
     {
